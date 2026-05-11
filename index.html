@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JPM Grup WA | Pasang Link Grup Bayar Rp1.000</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #075e54, #128c7e);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .badge-cuan {
+      background: #fbbf24;
+      color: #1f2937;
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    .kategori {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .kategori-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      padding: 10px 25px;
+      border-radius: 50px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .kategori-btn.active, .kategori-btn:hover {
+      background: #25d366;
+      color: #075e54;
+    }
+
+    .grid-grup {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .card-grup {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      transition: 0.3s;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .card-grup:hover {
+      transform: translateY(-5px);
+    }
+
+    .btn-join {
+      background: #25d366;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 50px;
+      width: 100%;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    /* Form pasang grup (HARUS BAYAR) */
+    .form-pasang {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      margin-top: 30px;
+      border: 3px solid #fbbf24;
+    }
+
+    .form-pasang h3 {
+      color: #075e54;
+      margin-bottom: 10px;
+      font-size: 1.5rem;
+    }
+
+    .form-pasang .note {
+      background: #fef3c7;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+      border-left: 4px solid #f59e0b;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+
+    .btn-submit {
+      background: #f59e0b;
+      color: white;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 50px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1.1rem;
+    }
+
+    /* Modal QRIS */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: white;
+      max-width: 500px;
+      width: 90%;
+      border-radius: 30px;
+      padding: 25px;
+      text-align: center;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .qris-img {
+      width: 100%;
+      max-width: 250px;
+      margin: 20px auto;
+      display: block;
+    }
+
+    .contact-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 15px 0;
+    }
+
+    .contact-buttons a {
+      flex: 1;
+      padding: 10px;
+      border-radius: 50px;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      color: white;
+      margin-top: 40px;
+      padding: 20px;
+    }
+
+    .admin-trigger {
+      background: rgba(0,0,0,0.3);
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 50px;
+      font-size: 12px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .admin-panel {
+      background: #1e293b;
+      color: white;
+      border-radius: 20px;
+      padding: 25px;
+      margin-top: 30px;
+      display: none;
+    }
+
+    .admin-panel.show {
+      display: block;
+    }
+
+    .link-item {
+      background: #334155;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📱 JPM Direktori Grup WA</h1>
+    <p>Tempat cari grup WhatsApp gratis & pasang grup sendiri</p>
+    <div class="badge-cuan">💰 BUAT ADMIN GRUP: Pasang link grup di sini cuma Rp1.000!</div>
+  </div>
+
+  <!-- Filter Kategori (UNTUK USER JOIN GRUP) -->
+  <div class="kategori">
+    <button class="kategori-btn active" data-kategori="semua">Semua Grup</button>
+    <button class="kategori-btn" data-kategori="bisnis">Bisnis & Jualan</button>
+    <button class="kategori-btn" data-kategori="investasi">Investasi & Crypto</button>
+    <button class="kategori-btn" data-kategori="edukasi">Edukasi & Kursus</button>
+    <button class="kategori-btn" data-kategori="hiburan">Hiburan & Komunitas</button>
+  </div>
+
+  <!-- DAFTAR GRUP (GRATIS DIKLIK) -->
+  <div class="grid-grup" id="daftarGrup"></div>
+
+  <!-- FORM PASANG GRUP (HARUS BAYAR RP1.000) -->
+  <div class="form-pasang" id="formPasang">
+    <h3>📢 Mau pasang grup WhatsApp kamu di sini?</h3>
+    <div class="note">
+      ⚠️ Syarat: Grup aktif & ramah. Dilarang grup spam/NSFW.<br>
+      💰 Biaya pasang: <strong>HANYA Rp1.000 (sekali bayar, tampil selamanya)</strong>
+    </div>
+    
+    <form id="formTambahGrup">
+      <div class="form-group">
+        <input type="text" id="namaGrup" placeholder="Nama Grup" required>
+      </div>
+      <div class="form-group">
+        <textarea id="deskripsiGrup" rows="2" placeholder="Deskripsi grup (contoh: tempat jualan pulsa, diskusi saham, dll)" required></textarea>
+      </div>
+      <div class="form-group">
+        <select id="kategoriGrup" required>
+          <option value="">Pilih Kategori</option>
+          <option value="bisnis">Bisnis & Jualan</option>
+          <option value="investasi">Investasi & Crypto</option>
+          <option value="edukasi">Edukasi & Kursus</option>
+          <option value="hiburan">Hiburan & Komunitas</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <input type="url" id="linkGrup" placeholder="Link Grup WhatsApp (contoh: https://chat.whatsapp.com/xxxx)" required>
+      </div>
+      <div class="form-group">
+        <input type="text" id="kontakAdmin" placeholder="Nomor WA admin grup (untuk verifikasi)" required>
+      </div>
+      <button type="button" class="btn-submit" onclick="prosesPembayaran()">💸 Pasang Grup - Bayar Rp1.000</button>
+    </form>
+    <p style="margin-top: 15px; font-size: 0.85rem; color: #666;">*Setelah bayar, grup Anda akan tampil dalam max 1x24 jam</p>
+  </div>
+
+  <!-- MODAL QRIS PEMBAYARAN (Untuk yang mau pasang grup) -->
+  <div class="modal" id="qrisModal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <h3>💳 Bayar Rp1.000 untuk Pasang Grup</h3>
+      <img src="https://files.catbox.moe/8izjx2.jpg" alt="QRIS Dana" class="qris-img" onerror="this.src='https://placehold.co/300x300?text=QRIS+DANA'">
+      <div class="contact-buttons">
+        <a href="https://wa.me/6285936682759?text=Halo%20kak%2C%20saya%20sudah%20bayar%20Rp1.000%20untuk%20pasang%20grup.%20Data%20grup%3A%20" target="_blank" style="background:#25d366;">💚 Konfirmasi ke WA</a>
+        <a href="https://t.me/Hirrvon" target="_blank" style="background:#0088cc;">✈️ Konfirmasi ke Telegram</a>
+      </div>
+      <p style="margin-top: 10px;">Atau DM Instagram: <strong>@hirrvontrinity</strong> / <strong>محمد طاهر</strong></p>
+      <p style="font-size: 12px; margin-top: 15px;">📌 Setelah transfer, kirim bukti + data grup ke admin. Grup akan segera ditampilkan.</p>
+    </div>
+  </div>
+
+  <!-- PANEL ADMIN (untuk approve grup yang sudah bayar) -->
+  <div class="admin-panel" id="adminPanel">
+    <h3>🔐 PANEL ADMIN - Approve Grup Baru</h3>
+    <p>Grup yang sudah dibayar oleh pemilik grup akan muncul di sini untuk di-approve.</p>
+    <div id="pendingGroups"></div>
+    <button class="btn-submit" style="background:#ef4444; margin-top:10px;" onclick="tutupAdminPanel()">Tutup Panel</button>
+  </div>
+
+  <footer>
+    <p>🔗 Klik link grup = GRATIS langsung join</p>
+    <p>💰 Mau pasang grup sendiri? Bayar Rp1.000 aja!</p>
+    <div class="admin-trigger" id="adminTriggerBtn">🔧 Admin Approve (Klik 3x)</div>
+  </footer>
+</div>
+
+<script>
+  // ========== DATA GRUP (yang sudah tampil, bisa diklik gratis) ==========
+  let grupData = [
+    { id: 1, nama: "Grup Jualan Cuan 2025", deskripsi: "Tempat jualan pulsa, kuota, afiliasi", kategori: "bisnis", anggota: "2.1k", icon: "🛍️", link: "https://chat.whatsapp.com/ILWplAjaar61CDgq3xffhP" },
+    { id: 2, nama: "Saham & Crypto Signal", deskripsi: "Signal saham, crypto, reksadana", kategori: "investasi", anggota: "1.5k", icon: "📈", link: "https://chat.whatsapp.com/ILWplAjaar61CDgq3xffhP" },
+    { id: 3, nama: "Belajar AI & ChatGPT", deskripsi: "Tutorial AI, prompt engineering", kategori: "edukasi", anggota: "3.2k", icon: "🤖", link: "https://chat.whatsapp.com/ILWplAjaar61CDgq3xffhP" },
+    { id: 4, nama: "Komunitas Gamer Indo", deskripsi: "Cari teman main ML, PUBG, FF", kategori: "hiburan", anggota: "5k", icon: "🎮", link: "https://chat.whatsapp.com/ILWplAjaar61CDgq3xffhP" }
+  ];
+
+  // Grup yang pending (belum dibayar / menunggu approve)
+  let pendingGroups = [];
+
+  // Tampilkan semua grup (GRATIS DIKLIK)
+  function renderGrup(filter = "semua") {
+    const grid = document.getElementById("daftarGrup");
+    let filtered = grupData;
+    if (filter !== "semua") {
+      filtered = grupData.filter(g => g.kategori === filter);
+    }
+    
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div style="background:white; border-radius:20px; padding:40px; text-align:center;">😢 Belum ada grup di kategori ini</div>`;
+      return;
+    }
+    
+    grid.innerHTML = filtered.map(grup => `
+      <div class="card-grup">
+        <div style="font-size:3rem">${grup.icon}</div>
+        <div style="font-size:1.4rem; font-weight:bold; color:#075e54; margin-top:10px">${escapeHtml(grup.nama)}</div>
+        <div style="color:#666; margin:10px 0">${escapeHtml(grup.deskripsi)}</div>
+        <div style="display:flex; justify-content:space-between; margin:15px 0; color:#888">
+          <span>👥 ${grup.anggota}</span>
+          <span>🏷️ ${grup.kategori.toUpperCase()}</span>
+        </div>
+        <a href="${grup.link}" target="_blank" style="text-decoration:none;">
+          <button class="btn-join">🔗 Join Grup (Gratis)</button>
+        </a>
+      </div>
+    `).join('');
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+
+  // Proses pembayaran untuk PASANG GRUP
+  function prosesPembayaran() {
+    const nama = document.getElementById('namaGrup').value.trim();
+    const deskripsi = document.getElementById('deskripsiGrup').value.trim();
+    const kategori = document.getElementById('kategoriGrup').value;
+    const link = document.getElementById('linkGrup').value.trim();
+    const kontakAdmin = document.getElementById('kontakAdmin').value.trim();
+
+    if (!nama || !deskripsi || !kategori || !link || !kontakAdmin) {
+      alert("Harap isi semua data grup!");
+      return;
+    }
+
+    if (!link.includes("chat.whatsapp.com")) {
+      alert("Link grup harus dari https://chat.whatsapp.com/xxxx");
+      return;
+    }
+
+    // Simpan data grup ke pending (sementara)
+    const newGroup = {
+      id: Date.now(),
+      nama: nama,
+      deskripsi: deskripsi,
+      kategori: kategori,
+      link: link,
+      kontakAdmin: kontakAdmin,
+      icon: "🆕",
+      anggota: "Baru"
+    };
+    
+    pendingGroups.push(newGroup);
+    localStorage.setItem('pendingGroups', JSON.stringify(pendingGroups));
+    
+    // Buka modal QRIS untuk pembayaran
+    document.getElementById('qrisModal').style.display = 'flex';
+    
+    // Simpan data ke session biar bisa diambil admin nanti
+    sessionStorage.setItem('lastPendingGroup', JSON.stringify(newGroup));
+  }
+
+  function closeModal() {
+    document.getElementById('qrisModal').style.display = 'none';
+  }
+
+  // ========== PANEL ADMIN (Approve grup yang sudah BAYAR) ==========
+  function renderPendingGroups() {
+    const container = document.getElementById('pendingGroups');
+    const pending = JSON.parse(localStorage.getItem('pendingGroups') || '[]');
+    
+    if (pending.length === 0) {
+      container.innerHTML = '<p style="color:#94a3b8;">✅ Tidak ada grup pending. Semua grup sudah di-approve.</p>';
+      return;
+    }
+    
+    container.innerHTML = pending.map((grup, idx) => `
+      <div class="link-item">
+        <strong>${escapeHtml(grup.nama)}</strong><br>
+        ${escapeHtml(grup.deskripsi)}<br>
+        Kategori: ${grup.kategori}<br>
+        Link: <a href="${grup.link}" target="_blank" style="color:#25d366;">${grup.link.substring(0, 50)}...</a><br>
+        Kontak: ${grup.kontakAdmin}
+        <button onclick="approveGroup(${idx})" style="background:#25d366; color:white; border:none; padding:5px 15px; border-radius:10px; margin-top:10px; cursor:pointer;">✅ Approve & Tampilkan</button>
+        <button onclick="rejectGroup(${idx})" style="background:#ef4444; color:white; border:none; padding:5px 15px; border-radius:10px; margin-top:10px; cursor:pointer;">❌ Tolak</button>
+      </div>
+    `).join('');
+  }
+
+  function approveGroup(index) {
+    let pending = JSON.parse(localStorage.getItem('pendingGroups') || '[]');
+    const approved = pending[index];
+    
+    // Tambahkan ke grupData (biar tampil di halaman)
+    const newId = grupData.length + 1;
+    grupData.push({
+      id: newId,
+      nama: approved.nama,
+      deskripsi: approved.deskripsi,
+      kategori: approved.kategori,
+      link: approved.link,
+      anggota: "Baru",
+      icon: "✅"
+    });
+    
+    // Hapus dari pending
+    pending.splice(index, 1);
+    localStorage.setItem('pendingGroups', JSON.stringify(pending));
+    
+    // Refresh tampilan
+    const activeFilter = document.querySelector('.kategori-btn.active').getAttribute('data-kategori');
+    renderGrup(activeFilter);
+    renderPendingGroups();
+    
+    alert(`✅ Grup "${approved.nama}" berhasil ditampilkan di halaman!`);
+  }
+
+  function rejectGroup(index) {
+    let pending = JSON.parse(localStorage.getItem('pendingGroups') || '[]');
+    pending.splice(index, 1);
+    localStorage.setItem('pendingGroups', JSON.stringify(pending));
+    renderPendingGroups();
+    alert("❌ Grup ditolak.");
+  }
+
+  // Panel admin
+  function bukaAdminPanel() {
+    document.getElementById('adminPanel').classList.add('show');
+    renderPendingGroups();
+  }
+  
+  function tutupAdminPanel() {
+    document.getElementById('adminPanel').classList.remove('show');
+  }
+
+  // Filter kategori
+  document.querySelectorAll('.kategori-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.kategori-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      renderGrup(this.getAttribute('data-kategori'));
+    });
+  });
+
+  // ========== AKSES ADMIN (Klik 3x) ==========
+  const adminBtn = document.getElementById('adminTriggerBtn');
+  let clickCount = 0;
+  adminBtn.addEventListener('click', function() {
+    clickCount++;
+    if (clickCount >= 3) {
+      const password = prompt("🔐 Masukkan Password Admin:", "");
+      if (password === "admin123") {
+        bukaAdminPanel();
+        clickCount = 0;
+      } else if (password !== null) {
+        alert("Password salah! Gunakan: admin123");
+      }
+      clickCount = 0;
+    }
+    setTimeout(() => { clickCount = 0; }, 1000);
+  });
+
+  // Load data pending dari localStorage
+  const savedPending = localStorage.getItem('pendingGroups');
+  if (savedPending) {
+    pendingGroups = JSON.parse(savedPending);
+  }
+
+  // Initial render
+  renderGrup("semua");
+</script>
+</body>
+</html>
